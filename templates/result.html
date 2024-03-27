@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Result</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ90c9j_01z3XWVmnBL-Wz2dUAgFn-Z8RUqefnksnYLf7q_iTzqjcv2ZuEM_Nq4qRIi4Wk&usqp=CAU');
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+        }
+        #prediction_result {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #5dacce;
+            border-radius: 8px;
+            box-shadow: 0 0 10px hwb(210 91% 7% / 0.1);
+            margin-top: 30px;
+        }
+        p {
+            margin: 10px 0;
+        }
+        strong {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Prediction Result</h1>
+
+    <div id="prediction_result">
+        <p><strong>Predicted Symptoms:</strong> <span id="predicted_symptoms"></span></p>
+        <p><strong>Predicted Cure:</strong> <span id="predicted_cure"></span></p>
+        <p><strong>Risk Level:</strong> <span id="risk_level"></span></p>
+        <p><strong>doctor:</strong> <span id="doctor"></span></p>
+    </div>
+
+    <script>
+        // Retrieve prediction result from Flask backend
+        fetch('/predict', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            // You can pass data if needed
+            body: JSON.stringify({})
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Update HTML with prediction result
+            document.getElementById('predicted_symptoms').textContent = data.predicted_symptoms;
+            document.getElementById('predicted_cure').textContent = data.predicted_cure;
+            document.getElementById('risk_level').textContent = data.risk_level;
+            document.getElementById('doctor').textContent = data.doctor;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    </script>
+</body>
+</html>
